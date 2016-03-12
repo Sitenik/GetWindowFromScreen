@@ -307,57 +307,40 @@ namespace GetWindowMouse
 
         Timer timer = null;
         ФормаРамка рамка = null;
-
+        private bool ПопаданиеМышыВФорму(Point мышь, Info форма)
+        {
+            return форма.Bounds.Contains(мышь);
+        }
         public void Do() 
         {
-            var frm = new Form() { StartPosition = FormStartPosition.CenterScreen, Width = 800, Height = 500, TopMost = true, Text = "TEST" };
+            var frm = new Form()
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Width = 800,
+                Height = 500,
+                //TopMost = true,
+                Text = "TEST"
+            };
             var rtb = new RichTextBox() { Parent = frm, Dock = DockStyle.Fill, WordWrap = false };
-            rtb.Text = "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf";
-            timer = new Timer() { Interval = 5000, Enabled = true };
-            //рамка = new ФормаРамка();
-            //рамка.KeyDown += Рамка_KeyDown;
+            timer = new Timer() { Interval = 1000, Enabled = true };
+            рамка = new ФормаРамка();
+            рамка.KeyDown += Рамка_KeyDown;
             //рамка.Visible = true; 
-            //timer.Stop();
             timer.Tick += (s, eе) =>
             {
                 var pos = Cursor.Position;
                 var i = new Info(WindowFromPoint(pos));
                 var p = GetWindows(i.Hwnd, Gw.GW_HWNDNEXT)
                         .Select(h => new Info(h))
-                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != rtb && v.Title != "F0H13A34" && !String.IsNullOrEmpty(v.Title))
-                        .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)).FirstOrDefault();
-                rtb.Text = String.Join("\n", p);
-                
+                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != рамка &&  ПопаданиеМышыВФорму(pos, v))
+                        .Where(v => !v.Bounds.IsEmpty
+                        && v.Bounds.IntersectsWith(i.Bounds)
+                        ).FirstOrDefault();
+                //rtb.Text = String.Join("\n", p);
+                Принт(pos, rtb);
                 if (p != null)
                 {
-                    p.Do();
-                        //var tttt = GetWindows(WindowFromPoint(pos), Gw.GW_HWNDNEXT).Where(v => v == p.Hwnd).FirstOrDefault();
-
-
-
-
-
-                        //var sdfsdf = GetWindow(tttt, Gw.GW_HWNDNEXT);
-
-                    //Control ffff = Control.FromHandle(sdfsdf);
-                    //Control mainForm = Form.FromHandle(p.);
-                    //Console.WriteLine("mainForm = " + sdfsdf);
-                    //Process[] processes = Process.GetProcesses();
-                    //foreach (Process p in processes)
-                    //{
-                    //    if (p.StartInfo.FileName == "Name EXE")
-                    //    {
-                    //        IntPtr hWindow = p.MainWindowHandle;
-                    //        Control mainForm = Form.FromHandle(hWindow);
-                    //        ControlCollection childControls = mainForm.Controls;
-                    //    }
-                    //}
-
-
-
-                    //timer.Stop();
-                    //рамка.Correct(p.Bounds);
-                    //timer.Start();
+                    рамка.Correct(p.Bounds);
                 }
                 //    timer.Stop();
                 //    // Получение дескриптора рабочего стола
@@ -397,6 +380,23 @@ namespace GetWindowMouse
 
             };
             frm.ShowDialog();
+        }
+
+        private void Принт(Point pos, Control rtb)
+        {
+            var i = new Info(WindowFromPoint(pos));
+            var p = GetWindows(i.Hwnd, Gw.GW_HWNDNEXT)
+                    .Select(h => new Info(h))
+                    .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != рамка && ПопаданиеМышыВФорму(pos, v))
+                    .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)
+                    )
+                    ;
+            (rtb as RichTextBox).Text = String.Join("\n", p);
+
+            //(rtb as RichTextBox)
+            //    .AppendText(Environment.NewLine + i.Hwnd + ": POS.X = " + pos.X + ", POS.Y = " + pos.Y + ":");
+            //(rtb as RichTextBox)
+            //    .AppendText(Environment.NewLine + String.Join("\n", p) + Environment.NewLine);
         }
 
         private void Рамка_KeyDown(object sender, KeyEventArgs e)
