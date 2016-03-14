@@ -87,6 +87,8 @@
             this.ShowInTaskbar = false;
             this.Text = "F0H13A34";
             this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ФормаРамка_KeyDown);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ФормаРамка_MouseClick);
             this.ResumeLayout(false);
 
         }
