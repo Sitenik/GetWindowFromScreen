@@ -9,14 +9,18 @@ namespace GetWindowMouse
         public InfoHwnd ТекущийВыбор = null;
         ФормаРамка рамка = null;
 
+        Выбор фвыафыва = null;
+
         public InfoHwnd Do()
         {
             try
             {
-                рамка = new ФормаРамка();
-                if(рамка.ShowDialog() == DialogResult.OK) {
-                    return рамка.ТекущийВыбор;
-                }
+                //рамка = new ФормаРамка();
+                //if(рамка.ShowDialog() == DialogResult.OK) {
+                //    return рамка.ТекущийВыбор;
+                //}
+                фвыафыва = new Выбор();
+                фвыафыва.ShowDialog();
             }
             catch (Exception exc)
             {
