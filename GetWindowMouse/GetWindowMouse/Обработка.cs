@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using UtilWinApi.User32;
+using WinApiCom;
 
 namespace GetWindowMouse
 {

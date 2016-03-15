@@ -11,6 +11,6 @@
             <ColumnDefinition Width="304*"/>
         </Grid.ColumnDefinitions>
         <Button Content="Button" HorizontalAlignment="Left" Margin="148.198,236,0,0" VerticalAlignment="Top" Width="129" Height="50" Click="Button_Click" Grid.Column="1"/>
-        <Label x:Name="lb" Content="Выберите окно" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Width="467" Grid.ColumnSpan="2"/>
+        <Label x:Name="lb" Content="Выберите окно" HorizontalAlignment="Left" Margin="26,10,0,0" VerticalAlignment="Top" Width="467"/>
     </Grid>
 </Window>

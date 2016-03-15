@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace UtilWinApi.User32
+namespace WinApiCom
 {
     /// <summary>
     /// Wrapper class for the user32.dll.
     /// </summary>
-    public class user32
+    public class User32
     {
         #region Перечисления
         public enum Gw : uint
@@ -45,67 +45,52 @@ namespace UtilWinApi.User32
 
         [DllImport("user32.dll")]
         public static extern IntPtr WindowFromPoint(Point p);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll", EntryPoint = "ReleaseDC", SetLastError = true)]
+        public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
         #endregion
     }
 
     /// <summary>
     /// Provides utilities directly accessing the user32.dll 
     /// </summary>
-    public static class WinUser
-	{
+    public static class User32Helper
+    {
         public static Rectangle GetRectangle(IntPtr hwnd)
         {
-            var r = new user32.RECT();
-            user32.GetWindowRect(hwnd, out r);
+            var r = new User32.RECT();
+            User32.GetWindowRect(hwnd, out r);
             return Rectangle.FromLTRB(r.Left, r.Top, r.Right, r.Bottom);
         }
 
         public static string GetTitle(IntPtr hwnd)
         {
-            var sb = new StringBuilder(user32.GetWindowTextLength(hwnd) * 2);
-            user32.GetWindowText(hwnd, sb, sb.Capacity);
+            var sb = new StringBuilder(User32.GetWindowTextLength(hwnd) * 2);
+            User32.GetWindowText(hwnd, sb, sb.Capacity);
             return sb.ToString();
         }
 
-        public static IEnumerable<IntPtr> GetWindows(IntPtr hwnd, user32.Gw gw)
+        public static IEnumerable<IntPtr> GetWindows(IntPtr hwnd, User32.Gw gw)
         {
-            for (var h = hwnd; h != IntPtr.Zero; h = user32.GetWindow(h, gw))
+            for (var h = hwnd; h != IntPtr.Zero; h = User32.GetWindow(h, gw))
                 yield return h;
         }
-    }
 
-    public class InfoHwnd
-    {
-        public IntPtr Hwnd;
-
-        public InfoHwnd(IntPtr hwnd)
+        public static User32.RECT GetClientRect(IntPtr hWnd)
         {
-            this.Hwnd = hwnd;
-        }
-        public Rectangle Bounds
-        {
-            get
-            {
-                return WinUser.GetRectangle(this.Hwnd);
-            }
-        }
-        public string Title
-        {
-            get
-            {
-                return WinUser.GetTitle(this.Hwnd);
-            }
-        }
-        public bool Visible
-        {
-            get
-            {
-                return user32.IsWindowVisible(this.Hwnd);
-            }
-        }
-        public override string ToString()
-        {
-            return String.Format("{0,15}\t{1,-50}\t{2}", this.Hwnd, this.Title, this.Bounds);
+            User32.RECT result;
+            User32.GetClientRect(hWnd, out result);
+            return result;
         }
     }
 }

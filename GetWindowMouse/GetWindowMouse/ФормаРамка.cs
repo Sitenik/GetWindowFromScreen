@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using UtilWinApi.User32;
+using WinApiCom;
 
 namespace GetWindowMouse
 {
@@ -33,8 +33,8 @@ namespace GetWindowMouse
 
         private void Принт(Point pos, Control rtb)
         {
-            var i = new InfoHwnd(user32.WindowFromPoint(pos));
-            var p = WinUser.GetWindows(i.Hwnd, user32.Gw.GW_HWNDNEXT)
+            var i = new InfoHwnd(User32.WindowFromPoint(pos));
+            var p = User32Helper.GetWindows(i.Hwnd, User32.Gw.GW_HWNDNEXT)
                         .Select(h => new InfoHwnd(h))
                         .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v) && !String.IsNullOrEmpty(v.Title))
                         .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)
@@ -52,8 +52,8 @@ namespace GetWindowMouse
                 }
                 ИдетОбработка = true;
                 var pos = Cursor.Position;
-                var i = new InfoHwnd(user32.WindowFromPoint(pos));
-                var p = WinUser.GetWindows(i.Hwnd, user32.Gw.GW_HWNDNEXT)
+                var i = new InfoHwnd(User32.WindowFromPoint(pos));
+                var p = User32Helper.GetWindows(i.Hwnd, User32.Gw.GW_HWNDNEXT)
                         .Select(h => new InfoHwnd(h))
                         .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v) && !String.IsNullOrEmpty(v.Title))
                         .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)
