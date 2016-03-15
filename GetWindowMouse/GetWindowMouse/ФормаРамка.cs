@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using UtilWinApi.User32;
@@ -35,7 +36,7 @@ namespace GetWindowMouse
             var i = new InfoHwnd(user32.WindowFromPoint(pos));
             var p = WinUser.GetWindows(i.Hwnd, user32.Gw.GW_HWNDNEXT)
                         .Select(h => new InfoHwnd(h))
-                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v))
+                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v) && !String.IsNullOrEmpty(v.Title))
                         .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)
                         );
             //(rtb as RichTextBox).Text = String.Join("\n", p);
@@ -46,12 +47,15 @@ namespace GetWindowMouse
         {
             try
             {
+                if(ИдетОбработка) {
+                    return;
+                }
                 ИдетОбработка = true;
                 var pos = Cursor.Position;
                 var i = new InfoHwnd(user32.WindowFromPoint(pos));
                 var p = WinUser.GetWindows(i.Hwnd, user32.Gw.GW_HWNDNEXT)
                         .Select(h => new InfoHwnd(h))
-                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v))
+                        .Where(v => v.Visible && Control.FromHandle(v.Hwnd) != this && ПопаданиеМышыВФорму(pos, v) && !String.IsNullOrEmpty(v.Title))
                         .Where(v => !v.Bounds.IsEmpty && v.Bounds.IntersectsWith(i.Bounds)
                         ).FirstOrDefault();
                 if (p != null)
