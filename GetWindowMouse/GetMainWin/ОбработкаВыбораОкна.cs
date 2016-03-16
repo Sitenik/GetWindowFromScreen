@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using WinApiCom;
 
-namespace GetWindowMouse
+namespace GetMainWin
 {
-    public class Обработка : IDisposable
+    public class ОбработкаВыбораОкна : IDisposable
     {
         public InfoHwnd ТекущийВыбор = null;
         ФормаРамка рамка = null;

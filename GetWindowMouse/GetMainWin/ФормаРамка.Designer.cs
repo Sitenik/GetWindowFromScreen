@@ -1,4 +1,4 @@
-﻿namespace GetWindowMouse
+﻿namespace GetMainWin
 {
     partial class ФормаРамка
     {

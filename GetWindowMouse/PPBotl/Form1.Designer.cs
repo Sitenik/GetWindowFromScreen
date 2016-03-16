@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lb = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.rtb = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lb = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
@@ -50,15 +50,13 @@
             this.panel1.Size = new System.Drawing.Size(713, 100);
             this.panel1.TabIndex = 5;
             // 
-            // lb
+            // rtb
             // 
-            this.lb.AutoSize = true;
-            this.lb.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lb.Location = new System.Drawing.Point(0, 0);
-            this.lb.Name = "lb";
-            this.lb.Size = new System.Drawing.Size(35, 13);
-            this.lb.TabIndex = 1;
-            this.lb.Text = "label1";
+            this.rtb.Location = new System.Drawing.Point(12, 16);
+            this.rtb.Name = "rtb";
+            this.rtb.Size = new System.Drawing.Size(516, 69);
+            this.rtb.TabIndex = 6;
+            this.rtb.Text = "";
             // 
             // button1
             // 
@@ -70,13 +68,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // rtb
+            // lb
             // 
-            this.rtb.Location = new System.Drawing.Point(12, 16);
-            this.rtb.Name = "rtb";
-            this.rtb.Size = new System.Drawing.Size(516, 69);
-            this.rtb.TabIndex = 6;
-            this.rtb.Text = "";
+            this.lb.AutoSize = true;
+            this.lb.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lb.Location = new System.Drawing.Point(0, 0);
+            this.lb.Name = "lb";
+            this.lb.Size = new System.Drawing.Size(35, 13);
+            this.lb.TabIndex = 1;
+            this.lb.Text = "label1";
             // 
             // pictureBox1
             // 

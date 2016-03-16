@@ -34,7 +34,7 @@ namespace WinApiCom
         }
         public override string ToString()
         {
-            return String.Format("{0,15}\t{1,-50}\t{2}", this.Hwnd, this.Title, this.Bounds);
+            return String.Format("{0,15} \t {1,-50} \t {2}", this.Hwnd, this.Title, this.Bounds);
         }
 
         public IntPtr GetDC()

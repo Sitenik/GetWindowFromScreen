@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WinApiCom;
 
-namespace GetWindowMouse
+namespace GetMainWin
 {
     public partial class ФормаРамка : Form
     {

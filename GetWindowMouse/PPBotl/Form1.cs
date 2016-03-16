@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using GetWindowMouse;
 using OpenCvSharp;
+using PPBotl.РаботаСИзображениями;
 using WinApiCom;
 
 namespace PPBotl
 {
     public partial class Form1 : Form
     {
+        private Core Ядро = new Core();
+        private Скриншотер СкриншотHelper = null;
+
+
         public InfoHwnd ОкноПриложения = null;
         public Bitmap Скриншот = null;
         Timer timer = null;
@@ -94,26 +93,30 @@ namespace PPBotl
         public Form1()
         {
             InitializeComponent();
+
+            СкриншотHelper = new Скриншотер(Ядро);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (Обработка выбратьОкно = new Обработка())
+            Ядро.ВыбратьОкноПриложения();
+            if (Ядро.ОкноПриложения == null)
             {
-                ОкноПриложения = выбратьОкно.Do();
-                if (ОкноПриложения == null)
-                {
-                    lb.Text = "Выберите окно";
-                    return;
-                }
-                else 
-                {
-                    lb.Text = ОкноПриложения.ToString();
-                }
+                lb.Text = "Выберите окно";
+                return;
             }
-            timer = new Timer() { Interval = 80, Enabled = true };
-            timer.Tick += Timer_Tick;
-            Найденные = new Form1.Объекты(timer, rtb, Скриншот);
+            else
+            {
+                lb.Text = Ядро.ОкноПриложения.ToString();
+            }
+
+            Bitmap скрин = null;
+            СкриншотHelper.GetScreenShot(ref скрин);
+            pictureBox1.Image = скрин;
+
+            //timer = new Timer() { Interval = 80, Enabled = true };
+            //timer.Tick += Timer_Tick;
+            //Найденные = new Form1.Объекты(timer, rtb, Скриншот);
         }
 
         ОбработкаИзображения qwe = new ОбработкаИзображения();
